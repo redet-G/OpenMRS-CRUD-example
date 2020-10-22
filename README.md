@@ -11,6 +11,8 @@ Building from Source
 ### Using OpenMRS-SDK
 If you have OpenMRS-SDK you can build it using the following command. [Install OpenMRS-SDK ](https://github.com/openmrs/openmrs-sdk)
    
+    git clone https://github.com/redet-G/OpenMRS-CRUD-example.git
+    cd OpenMRS-CRUD-example
     mvn clean install openmrs-sdk:run
 
 ### Without using OpenMRS-SDK
