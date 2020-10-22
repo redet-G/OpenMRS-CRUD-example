@@ -7,6 +7,13 @@ This is a very basic module which can be used as a starting point in creating a 
 
 Building from Source
 --------------------
+
+###Using OpenMRS-SDK
+If you have OpenMRS-SDK you can build it using the following command. [Install OpenMRS-SDK ](https://github.com/openmrs/openmrs-sdk)
+   
+    mvn clean install openmrs-sdk:run
+
+###Without using OpenMRS-SDK
 You will need to have Java 1.6+ and Maven 2.x+ installed.  Use the command 'mvn package' to 
 compile and package the module.  The .omod file will be in the omod/target folder.
 
