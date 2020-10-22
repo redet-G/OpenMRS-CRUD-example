@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="crudexample-api" />
+        <module name="crudexample-omod" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="crudexample" target="1.5" />
+      <module name="crudexample-api" target="1.6" />
+      <module name="crudexample-omod" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+ 
+    <!--
+    	See http://wiki.openmrs.org/display/docs/Module+liquibase+File for 
+    	documentation on this file.
+    
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+ 
+ 	<!-- Uncomment the changeset below if you want to make the Item class persistable, see also Item and CrudexampleDaoTest -->
+
+	<changeSet id="crudexample-2016-08-02-12-21" author="raff">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="crudexample_item"/></not>
+		</preConditions>
+		<comment>
+			Creating the crudexample_item table
+		</comment>
+		<createTable tableName="crudexample_item">
+			<column name="crudexample_item_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+            <column name="creator" type="int" />
+            <column name="owner" type="int" />
+            <column name="name" type="varchar(255)" />
+            <column name="description" type="varchar(255)" />
+            <column name="date_created" type="datetime" />
+            <column name="changed_by" type="int" />
+            <column name="date_changed" type="datetime" />
+            <column name="voided" type="boolean" />
+            <column name="date_voided" type="datetime" />
+            <column name="voided_by" type="int" />
+            <column name="void_reason" type="varchar(255)" />
+		</createTable>
+        <addForeignKeyConstraint constraintName="crudexample_item_owner_fk" baseTableName="crudexample_item" baseColumnNames="owner"  referencedTableName="users"  referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="crudexample_item_creator_fk" baseTableName="crudexample_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="crudexample_item_changed_by_fk" baseTableName="crudexample_item" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="crudexample_item_voided_by_fk" baseTableName="crudexample_item" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
+
+    </changeSet>
+ 
+</databaseChangeLog>
