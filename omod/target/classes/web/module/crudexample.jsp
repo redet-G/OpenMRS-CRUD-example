@@ -15,9 +15,9 @@
   </tr>
   <c:forEach var="item" items="${items}">
       <tr>
-        <td>${item.id}</td>
-        <td>${item.name}</td>
-        <td><c:out value="item.description"></td>
+        <td><c:out value="${item.id}"/></td>
+        <td><c:out value="${item.name}" /></td>
+        <td><c:out value="${item.description}" /></td>
         <td><a href="edit.form?uuid=${item.uuid}&id=${item.id}">edit</a></td>
         <td><a href="delete.form?uuid=${item.uuid}&id=${item.id}">delete</a></td>
       </tr>
