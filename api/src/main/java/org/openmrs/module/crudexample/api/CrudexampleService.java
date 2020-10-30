@@ -69,4 +69,14 @@ public interface CrudexampleService extends OpenmrsService {
 	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
 	@Transactional
 	void purgeItem(Item item) throws APIException;
+	
+	/**
+	 * get items with search query
+	 * 
+	 * @param query String
+	 * @param includeVoided boolean
+	 * @return List<Item>
+	 * @throws APIException
+	 */
+	List<Item> getItems(String query, boolean includeVoided) throws APIException;
 }

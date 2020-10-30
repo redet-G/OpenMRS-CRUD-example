@@ -6,6 +6,12 @@
 
 <h2><spring:message code="crudexample.title" /></h2>
 
+
+<form action="" method="GET">
+    <label for="q">Search</label>
+    <input id="q" name="q" type="search" value="${q}"/>
+</form>
+
 <br/>
 <table>
   <tr>

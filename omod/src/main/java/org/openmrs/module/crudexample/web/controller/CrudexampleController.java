@@ -11,6 +11,7 @@ package org.openmrs.module.crudexample.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.View;
 
@@ -120,12 +121,16 @@ public class CrudexampleController {
 	 * by the return type of this method
 	 */
 	@ModelAttribute("items")
-	protected List<Item> getUsers() throws Exception {
-		List<Item> items = exampleService.getAllItems();
+	protected List<Item> getItems(HttpServletRequest request) throws Exception {
+		List<Item> items = exampleService.getItems(request.getParameter("q"), false);
 		
 		// this object will be made available to the jsp page under the variable name
 		// that is defined in the @ModuleAttribute tag
 		return items;
 	}
 	
+	@ModelAttribute("q")
+	protected String getQuery(HttpServletRequest request) throws Exception {
+		return request.getParameter("q") != null ? request.getParameter("q") : "";
+	}
 }
