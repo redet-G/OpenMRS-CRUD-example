@@ -9,6 +9,9 @@
  */
 package org.openmrs.module.crudexample.api.dao;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
@@ -43,5 +46,18 @@ public class CrudexampleDao {
 	
 	public void purgeItem(Item item) {
 		getSession().delete(item);
+	}
+	
+	public List<Item> getItems(String query, boolean includeVoided) {
+		Criteria criteria = getSession().createCriteria(Item.class, "i");
+		if (!includeVoided) {
+			criteria.add(Restrictions.eq("i.voided", false));
+		}
+		Disjunction or = Restrictions.disjunction();
+		MatchMode mode = MatchMode.ANYWHERE;
+		or.add(Restrictions.ilike("i.name", query, mode));
+		or.add(Restrictions.ilike("i.description", query, mode));
+		criteria.add(or);
+		return criteria.list();
 	}
 }
