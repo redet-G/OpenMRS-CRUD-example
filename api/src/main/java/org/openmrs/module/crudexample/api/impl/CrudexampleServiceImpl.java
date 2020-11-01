@@ -67,6 +67,11 @@ public class CrudexampleServiceImpl extends BaseOpenmrsService implements Crudex
 		if (query == null || (query != null && query.trim().length() == 0)) {
 			return dao.getAllItems();
 		}
-		return dao.getItems(query, includeVoided);
+		return dao.getItems(query,includeVoided);
 	}
+
+	public long getCountOfItems(String query, boolean includeVoided) throws APIException {
+		return dao.getCountOfItems(query, includeVoided);
+	}
+
 }

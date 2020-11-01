@@ -29,6 +29,9 @@ import javax.persistence.Table;
 @Table(name = "crudexample_item")
 public class Item extends BaseOpenmrsData {
 	
+	public Item() {
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "crudexample_item_id")
