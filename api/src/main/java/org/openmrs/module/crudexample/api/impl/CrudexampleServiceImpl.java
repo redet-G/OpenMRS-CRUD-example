@@ -64,7 +64,7 @@ public class CrudexampleServiceImpl extends BaseOpenmrsService implements Crudex
 	
 	@Override
 	public List<Item> getItems(String query, boolean includeVoided) throws APIException {
-		if (query == null || query.trim.equals("=") || query.trim().length() == 0) {
+		if (query == null || query.trim().equals("=") || query.trim().length() == 0) {
 			return dao.getAllItems();
 		}
 		return dao.getItems(query, includeVoided);

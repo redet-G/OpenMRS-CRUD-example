@@ -138,10 +138,8 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-				.property("name", new StringProperty())
-				.property("description", new StringProperty())
-				.required("name");
+		return new ModelImpl().property("name", new StringProperty()).property("description", new StringProperty())
+		        .required("name");
 	}
 	
 }

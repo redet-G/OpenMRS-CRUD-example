@@ -58,18 +58,7 @@ public interface CrudexampleService extends OpenmrsService {
 	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
 	@Transactional
 	List<Item> getAllItems() throws APIException;
-	
-	/**
-	 * gets items.
-	 * 
-	 * @param
-	 * @return List<Item>
-	 * @throws APIException
-	 */
-	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
-	@Transactional
-	List<Item> getItems(String query, boolean includeVoided) throws APIException;
-	
+
 	/**
 	 * deletes an item.
 	 * 
