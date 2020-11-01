@@ -9,6 +9,10 @@
  */
 package org.openmrs.module.crudexample.api.dao;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
@@ -43,5 +47,44 @@ public class CrudexampleDao {
 	
 	public void purgeItem(Item item) {
 		getSession().delete(item);
+	}
+	
+	public Criteria createItemByQueryCriteria(String query, boolean includeVoided, boolean orderByNames) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Item.class, "i");
+		if (!includeVoided) {
+			criteria.add(Restrictions.eq("i.voided", false));
+		}
+		Disjunction or = Restrictions.disjunction();
+		MatchMode mode = MatchMode.ANYWHERE;
+		or.add(Restrictions.ilike("t.name", query, mode));
+		or.add(Restrictions.ilike("t.description", query, mode));
+		
+		criteria.add(or);
+		return criteria;
+	}
+	
+	public Long getCountOfItems(String query, boolean includeVoided) {
+		Criteria criteria = createItemByQueryCriteria(query, includeVoided, false);
+		
+		criteria.setProjection(Projections.countDistinct("i.crudexample_item_id"));
+		return (Long) criteria.uniqueResult();
+	}
+	
+	public List<Item> getItems(String query, boolean includeVoided) {
+		
+		if (query != null || !query.equals("=") || query.trim().length() != 0) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Item.class, "i");
+			if (!includeVoided) {
+				criteria.add(Restrictions.eq("i.voided", false));
+			}
+			Disjunction or = Restrictions.disjunction();
+			MatchMode mode = MatchMode.ANYWHERE;
+			or.add(Restrictions.ilike("i.name", query, mode));
+			or.add(Restrictions.ilike("i.description", query, mode));
+			criteria.add(or);
+			return (List<Item>) criteria.list();
+		} else {
+			return getAllItems();
+		}
 	}
 }

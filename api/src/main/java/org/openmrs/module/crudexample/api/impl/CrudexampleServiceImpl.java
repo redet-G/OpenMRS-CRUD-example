@@ -61,4 +61,14 @@ public class CrudexampleServiceImpl extends BaseOpenmrsService implements Crudex
 	public void purgeItem(Item item) throws APIException {
 		dao.purgeItem(item);
 	}
+	
+	@Override
+	public long getCountOfItems(String query, boolean includeVoided) throws APIException {
+		return dao.getCountOfItems(query, includeVoided);
+	}
+	
+	@Override
+	public List<Item> getItems(String query, boolean includeVoided) throws APIException {
+		return dao.getItems(query, includeVoided);
+	}
 }
