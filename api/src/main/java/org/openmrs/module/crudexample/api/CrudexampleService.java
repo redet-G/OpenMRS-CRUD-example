@@ -90,7 +90,7 @@ public interface CrudexampleService extends OpenmrsService {
 	 * @throws APIException
 	 */
 	List<Item> getItems(String query, boolean includeVoided) throws APIException;
-
+	
 	/**
 	 * return count of Items
 	 * 
@@ -102,5 +102,5 @@ public interface CrudexampleService extends OpenmrsService {
 	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
 	@Transactional
 	long getCountOfItems(String query, boolean includeVoided) throws APIException;
-
+	
 }

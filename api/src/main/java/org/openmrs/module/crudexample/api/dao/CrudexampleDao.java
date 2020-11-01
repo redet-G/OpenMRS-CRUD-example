@@ -24,31 +24,31 @@ import java.util.List;
 
 @Repository("crudexample.CrudexampleDao")
 public class CrudexampleDao {
-
+	
 	@Autowired
 	DbSessionFactory sessionFactory;
-
+	
 	private DbSession getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+	
 	public Item getItemByUuid(String uuid) {
 		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
 	}
-
+	
 	public Item saveItem(Item item) {
 		getSession().saveOrUpdate(item);
 		return item;
 	}
-
+	
 	public List<Item> getAllItems() {
 		return (List<Item>) getSession().createCriteria(Item.class).list();
 	}
-
+	
 	public void purgeItem(Item item) {
 		getSession().delete(item);
 	}
-
+	
 	public Criteria createItemByQueryCriteria(String query, boolean includeVoided, boolean orderByNames) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Item.class, "i");
 		if (!includeVoided) {
@@ -58,22 +58,22 @@ public class CrudexampleDao {
 		MatchMode mode = MatchMode.ANYWHERE;
 		or.add(Restrictions.ilike("t.name", query, mode));
 		or.add(Restrictions.ilike("t.description", query, mode));
-
+		
 		criteria.add(or);
 		return criteria;
 	}
-
+	
 	public Long getCountOfItems(String query, boolean includeVoided) {
 		Criteria criteria = createItemByQueryCriteria(query, includeVoided, false);
-
+		
 		criteria.setProjection(Projections.countDistinct("i.crudexample_item_id"));
 		return (Long) criteria.uniqueResult();
 	}
-
+	
 	public List<Item> getItems(String query, boolean includeVoided) {
-
+		
 		if (query != null || !query.equals("=") || query.trim().length() != 0) {
-			Criteria criteria = createItemByQueryCriteria(query,includeVoided,false);
+			Criteria criteria = createItemByQueryCriteria(query, includeVoided, false);
 			return (List<Item>) criteria.list();
 		} else {
 			return getAllItems();
