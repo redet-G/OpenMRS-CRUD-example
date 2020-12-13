@@ -47,5 +47,20 @@
         <addForeignKeyConstraint constraintName="crudexample_item_voided_by_fk" baseTableName="crudexample_item" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
 
     </changeSet>
+
+
+	<changeSet id="crudexample-2020-08-02-12-21" author="redet">
+		<preConditions onFail="MARK_RAN">
+			<tableExists tableName="crudexample_item"></tableExists>
+		</preConditions>
+		<comment>
+			add strength, unit and code columns to the crudexample_item table
+		</comment>
+		<addColumn tableName="crudexample_item">
+			<column name="strength" type="varchar(255)" />
+			<column name="unit" type="varchar(255)"/>
+			<column name="code" type="varchar(255)"/>
+		</addColumn>
+	</changeSet>
  
 </databaseChangeLog>

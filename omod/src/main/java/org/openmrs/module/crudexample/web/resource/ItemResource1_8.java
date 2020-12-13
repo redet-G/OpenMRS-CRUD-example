@@ -37,6 +37,9 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 			description.addProperty("uuid");
 			description.addProperty("name");
 			description.addProperty("description");
+			description.addProperty("strength");
+			description.addProperty("unit");
+			description.addProperty("code");
 			description.addProperty("voided");
 			description.addProperty("owner", Representation.REF);
 			description.addSelfLink();
@@ -47,6 +50,9 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 			description.addProperty("uuid");
 			description.addProperty("name");
 			description.addProperty("description");
+			description.addProperty("strength");
+			description.addProperty("unit");
+			description.addProperty("code");
 			description.addProperty("voided");
 			description.addProperty("owner", Representation.REF);
 			description.addSelfLink();
@@ -59,6 +65,9 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 		DelegatingResourceDescription description = new DelegatingResourceDescription();
 		description.addRequiredProperty("name");
 		description.addProperty("description");
+		description.addProperty("strength");
+		description.addProperty("unit");
+		description.addProperty("code");
 		
 		return description;
 	}
@@ -121,7 +130,8 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 	public Model getGETModel(Representation rep) {
 		ModelImpl model = ((ModelImpl) super.getGETModel(rep));
 		model.property("uuid", new StringProperty()).property("name", new StringProperty())
-		        .property("description", new StringProperty());
+		        .property("strength", new StringProperty()).property("unit", new StringProperty())
+		        .property("code", new StringProperty()).property("description", new StringProperty());
 		
 		if (rep instanceof DefaultRepresentation) {
 			model.property("owner", new RefProperty("#/definitions/UserGet"));
@@ -138,10 +148,9 @@ public class ItemResource1_8 extends DataDelegatingCrudResource<Item> {
 	
 	@Override
 	public Model getCREATEModel(Representation rep) {
-		return new ModelImpl()
-				.property("name", new StringProperty())
-				.property("description", new StringProperty())
-				.required("name");
+		return new ModelImpl().property("name", new StringProperty()).property("description", new StringProperty())
+		        .property("strength", new StringProperty()).property("unit", new StringProperty())
+		        .property("code", new StringProperty()).required("name");
 	}
 	
 }

@@ -49,6 +49,42 @@ public class Item extends BaseOpenmrsData {
 	@Column(name = "description", length = 255)
 	private String description;
 	
+	@Basic
+	@Column(name = "unit", length = 255)
+	private String unit;
+	
+	@Basic
+	@Column(name = "strength", length = 255)
+	private String strength;
+	
+	@Basic
+	@Column(name = "code", length = 255)
+	private String code;
+	
+	public String getUnit() {
+		return unit;
+	}
+	
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	
+	public String getStrength() {
+		return strength;
+	}
+	
+	public void setStrength(String strength) {
+		this.strength = strength;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	@Override
 	public Integer getId() {
 		return id;

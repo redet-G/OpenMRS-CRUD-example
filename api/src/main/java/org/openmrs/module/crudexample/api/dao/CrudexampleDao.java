@@ -58,6 +58,9 @@ public class CrudexampleDao {
 		MatchMode mode = MatchMode.ANYWHERE;
 		or.add(Restrictions.ilike("t.name", query, mode));
 		or.add(Restrictions.ilike("t.description", query, mode));
+		or.add(Restrictions.ilike("t.strength", query, mode));
+		or.add(Restrictions.ilike("t.unit", query, mode));
+		or.add(Restrictions.ilike("t.code", query, mode));
 		
 		criteria.add(or);
 		return criteria;
@@ -81,6 +84,9 @@ public class CrudexampleDao {
 			MatchMode mode = MatchMode.ANYWHERE;
 			or.add(Restrictions.ilike("i.name", query, mode));
 			or.add(Restrictions.ilike("i.description", query, mode));
+			or.add(Restrictions.ilike("i.unit", query, mode));
+			or.add(Restrictions.ilike("i.strength", query, mode));
+			or.add(Restrictions.ilike("i.code", query, mode));
 			criteria.add(or);
 			return (List<Item>) criteria.list();
 		} else {
