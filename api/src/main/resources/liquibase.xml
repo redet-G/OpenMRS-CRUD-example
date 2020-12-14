@@ -51,7 +51,10 @@
 
 	<changeSet id="crudexample-2020-08-02-12-21" author="redet">
 		<preConditions onFail="MARK_RAN">
+			<and>
 			<tableExists tableName="crudexample_item"></tableExists>
+			<not><columnExists tableName="crudexample_item" columnName="strength"></columnExists></not>
+			</and>
 		</preConditions>
 		<comment>
 			add strength, unit and code columns to the crudexample_item table
@@ -62,5 +65,184 @@
 			<column name="code" type="varchar(255)"/>
 		</addColumn>
 	</changeSet>
+	
+	<changeSet id="crudexample-2020-12-14-1" author="redet">
+		<validCheckSum>3:21d86765516e4753e3d868414b445b47</validCheckSum>
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="crudexample_store"/>
+			</not>
+		</preConditions>
+		<comment>create crudexample_store table</comment>
+		<createTable tableName="crudexample_store">
+			<column name="crudexample_store_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+
+			<column name="name" type="varchar(255)" />
+			<column name="location" type="varchar(255)" />
+			<column name="is_dispensary" type="boolean" defaultValue="false"/>
+			<column name="admin" type="int"/>
+			<!-- openmrs data -->
+			<column name="date_created" type="datetime" />
+			<column name="changed_by" type="int" />
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="boolean" />
+			<column name="date_voided" type="datetime" />
+			<column name="voided_by" type="int" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="crudexample_store_admin_fk" baseTableName="crudexample_store" baseColumnNames="admin"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_store_changed_by_fk" baseTableName="crudexample_store" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_store_voided_by_fk" baseTableName="crudexample_store" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
+
+
+	</changeSet>
+
+	<changeSet id="crudexample-2020-12-14-2" author="redet">
+		<validCheckSum>3:692ca77f3d6374aa1a53a2ecfeb67db2</validCheckSum>
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="crudexample_stored_item"/></not>
+		</preConditions>
+		<comment>
+			create crudexample_stored_item table
+		</comment>
+		<createTable tableName="crudexample_stored_item">
+			<column name="crudexample_stored_item_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+
+			<column name="expiry_date" type="date" />
+			<column name="quantity" type="int" />
+			<column name="price" type="double" />
+			<column name="store" type="int" />
+
+			<!-- openmrs data -->
+			<column name="date_created" type="datetime" />
+			<column name="changed_by" type="int" />
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="boolean" />
+			<column name="date_voided" type="datetime" />
+			<column name="voided_by" type="int" />
+			<column name="void_reason" type="varchar(255)" />
+
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="crudexample_stored_item_store_fk" baseTableName="crudexample_stored_item" baseColumnNames="store"  referencedTableName="crudexample_store"  referencedColumnNames="crudexample_store_id" />
+		<addForeignKeyConstraint constraintName="crudexample_stored_item_changed_by_fk" baseTableName="crudexample_stored_item" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_stored_item_voided_by_fk" baseTableName="crudexample_stored_item" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
+	</changeSet>
+	<changeSet id="crudexample-2020-12-14-3" author="redet">
+		<validCheckSum>3:f39cee4e62524541d7c98d3b19dde98c</validCheckSum>
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="crudexample_waive"/>
+			</not>
+		</preConditions>
+		<comment>create crudexample_waive talbe</comment>
+		<createTable tableName="crudexample_waive">
+			<column name="crudexample_waive_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+
+			<column name="name" type="varchar(255)"/>
+			<column name="description" type="varchar(255)"/>
+
+			<!-- openmrs data -->
+			<column name="date_created" type="datetime" />
+			<column name="changed_by" type="int" />
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="boolean" />
+			<column name="date_voided" type="datetime" />
+			<column name="voided_by" type="int" />
+			<column name="void_reason" type="varchar(255)" />
+		</createTable>
+		<addForeignKeyConstraint constraintName="crudexample_waive_changed_by_fk" baseTableName="crudexample_waive" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_waive_voided_by_fk" baseTableName="crudexample_waive" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
+
+	</changeSet>
+	<changeSet id="crudexample-2020-12-14-4" author="redet">
+		<validCheckSum>3:b0ba70e0db25e953d367b3805fa908bb</validCheckSum>
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="crudexample_issued_item"/>
+			</not>
+		</preConditions>
+		<createTable tableName="crudexample_issued_item">
+			<column name="crudexample_issued_item_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+			<column name="store" type="int"/>
+			<column name="quantity" type="int"/>
+			<column name="stored_item" type="int"/>
+			<column name="price" type="double"/>
+			<column name="is_waived" type="boolean" defaultValue="false" />
+			<column name="customer_name" type="varchar(255)" />
+			<column name="waive" type="int"/>
+			<!-- any sort of data used to identity the customer's waive approval status. This may be an id used by other systems-->
+			<column name="waive_approval" type="varchar(255)"/>
+			<!-- openmrs data -->
+			<column name="date_created" type="datetime" />
+			<column name="changed_by" type="int" />
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="boolean" />
+			<column name="date_voided" type="datetime" />
+			<column name="voided_by" type="int" />
+			<column name="void_reason" type="varchar(255)" />
+
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="crudexample_issued_item_waive_fk" baseTableName="crudexample_issued_item" baseColumnNames="waive"  referencedTableName="crudexample_waive"  referencedColumnNames="crudexample_waive_id" />
+		<addForeignKeyConstraint constraintName="crudexample_issued_item_creator_fk" baseTableName="crudexample_issued_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_issued_item_changed_by_fk" baseTableName="crudexample_issued_item" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_issued_item_voided_by_fk" baseTableName="crudexample_issued_item" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
+
+	</changeSet>
+	<changeSet id="crudexample-2020-12-14-5" author="redet">
+		<preConditions>
+			<and>
+				<tableExists tableName="crudexample_issued_item"/>
+				<tableExists tableName="crudexample_waive"/>
+				<tableExists tableName="crudexample_stored_item"/>
+				<tableExists tableName="crudexample_store"/>
+				<not>
+					<columnExists tableName="crudexample_issued_item" columnName="creator"/>
+				</not>
+			</and>
+		</preConditions>
+
+		<addColumn tableName="crudexample_issued_item">
+			<column name="creator" type="int" />
+		</addColumn>
+		<addColumn tableName="crudexample_waive">
+			<column name="creator" type="int" />
+		</addColumn>
+		<addColumn tableName="crudexample_stored_item">
+			<column name="creator" type="int" />
+		</addColumn>
+		<addColumn tableName="crudexample_store">
+			<column name="creator" type="int" />
+		</addColumn>
+
+		<addForeignKeyConstraint constraintName="crudexample_issued_item_creator_fk" baseTableName="crudexample_issued_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_waive_creator_fk" baseTableName="crudexample_waive" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_stored_item_creator_fk" baseTableName="crudexample_stored_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_store_creator_fk" baseTableName="crudexample_store" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+
+	</changeSet>
+
  
 </databaseChangeLog>
