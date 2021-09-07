@@ -35,6 +35,10 @@ public class Store extends BaseOpenmrsData {
 	private User admin;
 	
 	@Basic
+	@Column(name = "location", length = 255)
+	private String location;
+	
+	@Basic
 	@Column(name = "name", length = 255)
 	private String name;
 	
@@ -65,10 +69,6 @@ public class Store extends BaseOpenmrsData {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
-	@Basic
-	@Column(name = "location", length = 255)
-	private String location;
 	
 	@Override
 	public Integer getId() {

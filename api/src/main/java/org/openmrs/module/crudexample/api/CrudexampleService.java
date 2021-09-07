@@ -14,6 +14,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.crudexample.CrudexampleConfig;
 import org.openmrs.module.crudexample.Item;
+import org.openmrs.module.crudexample.Store;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public interface CrudexampleService extends OpenmrsService {
 	List<Item> getAllItems() throws APIException;
 	
 	/**
-	 * gets items.
+	 * gets items with query.
 	 * 
 	 * @param
 	 * @return List<Item>
@@ -92,5 +93,67 @@ public interface CrudexampleService extends OpenmrsService {
 	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
 	@Transactional
 	long getCountOfItems(String query, boolean includeVoided) throws APIException;
+	
+	/***
+	 * ############################################################################## /** store
+	 * ##################################################################################
+	 **/
+	
+	/**
+	 * Returns an store by uuid. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param uuid
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized()
+	@Transactional(readOnly = true)
+	Store getStoreByUuid(String uuid) throws APIException;
+	
+	/**
+	 * Saves an store. Sets the owner to superuser, if it is not set. It can be called by users with
+	 * this module's privilege. It is executed in a transaction.
+	 * 
+	 * @param store
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
+	@Transactional
+	Store saveStore(Store store) throws APIException;
+	
+	/**
+	 * gets all stores.
+	 * 
+	 * @param
+	 * @return List<Store>
+	 * @throws APIException
+	 */
+	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Store> getAllStores() throws APIException;
+	
+	/**
+	 * gets stores with query.
+	 * 
+	 * @param
+	 * @return List<Item>
+	 * @throws APIException
+	 */
+	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
+	@Transactional
+	List<Store> getStores(String query, boolean includeVoided) throws APIException;
+	
+	/**
+	 * deletes an item.
+	 * 
+	 * @param store
+	 * @return void
+	 * @throws APIException
+	 */
+	@Authorized(CrudexampleConfig.MODULE_PRIVILEGE)
+	@Transactional
+	void purgeStore(Store store) throws APIException;
 	
 }

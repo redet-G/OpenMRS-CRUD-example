@@ -13,6 +13,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.crudexample.Item;
+import org.openmrs.module.crudexample.Store;
 import org.openmrs.module.crudexample.api.CrudexampleService;
 import org.openmrs.module.crudexample.api.dao.CrudexampleDao;
 
@@ -70,5 +71,30 @@ public class CrudexampleServiceImpl extends BaseOpenmrsService implements Crudex
 	@Override
 	public List<Item> getItems(String query, boolean includeVoided) throws APIException {
 		return dao.getItems(query, includeVoided);
+	}
+	
+	@Override
+	public Store getStoreByUuid(String uuid) throws APIException {
+		return dao.getStoreByUuid(uuid);
+	}
+	
+	@Override
+	public Store saveStore(Store store) throws APIException {
+		return dao.saveStore(store);
+	}
+	
+	@Override
+	public List<Store> getAllStores() throws APIException {
+		return dao.getAllStores();
+	}
+	
+	@Override
+	public List<Store> getStores(String query, boolean includeVoided) throws APIException {
+		return dao.getStores(query, includeVoided);
+	}
+	
+	@Override
+	public void purgeStore(Store store) throws APIException {
+		dao.purgeStore(store);
 	}
 }

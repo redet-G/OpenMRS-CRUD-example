@@ -212,7 +212,7 @@
 
 	</changeSet>
 	<changeSet id="crudexample-2020-12-14-5" author="redet">
-		<preConditions>
+		<preConditions onFail="MARK_RAN">
 			<and>
 				<tableExists tableName="crudexample_issued_item"/>
 				<tableExists tableName="crudexample_waive"/>
@@ -241,6 +241,49 @@
 		<addForeignKeyConstraint constraintName="crudexample_waive_creator_fk" baseTableName="crudexample_waive" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
 		<addForeignKeyConstraint constraintName="crudexample_stored_item_creator_fk" baseTableName="crudexample_stored_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
 		<addForeignKeyConstraint constraintName="crudexample_store_creator_fk" baseTableName="crudexample_store" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+
+	</changeSet>
+
+	<changeSet id="crudexample-2020-12-19-1" author="redet">
+		<preConditions onFail="MARK_RAN">
+			<not>
+				<tableExists tableName="crudexample_lost_item"/>
+			</not>
+		</preConditions>
+		<comment>create crudexample_lost_item table</comment>
+		<createTable tableName="crudexample_lost_item">
+			<column name="crudexample_lost_item_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+
+			<column name="stored_item" type="int"/>
+			<column name="store" type="int"/>
+			<column name="quantity" type="int"/>
+			<column name="reason" type="varchar(5000)"/>
+			<column name="comment" type="varchar(5000)"/>
+
+			<!-- openmrs data -->
+			<column name="date_created" type="datetime" />
+			<column name="changed_by" type="int" />
+			<column name="date_changed" type="datetime" />
+			<column name="voided" type="boolean" />
+			<column name="date_voided" type="datetime" />
+			<column name="voided_by" type="int" />
+			<column name="void_reason" type="varchar(255)" />
+			<column name="creator" type="int" />
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="crudexample_lost_item_store_fk" baseTableName="crudexample_lost_item" baseColumnNames="store"  referencedTableName="crudexample_store"  referencedColumnNames="crudexample_store_id" />
+		<addForeignKeyConstraint baseTableName="crudexample_lost_item" baseColumnNames="stored_item"
+		                         constraintName="crudexample_lost_item_stored_item_fk"
+		                         referencedTableName="crudexample_stored_item"
+		                         referencedColumnNames="crudexample_stored_item_id" />
+		<addForeignKeyConstraint constraintName="crudexample_lost_item_creator_fk" baseTableName="crudexample_lost_item" baseColumnNames="creator"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_lost_item_changed_by_fk" baseTableName="crudexample_lost_item" baseColumnNames="changed_by"  referencedTableName="users"  referencedColumnNames="user_id" />
+		<addForeignKeyConstraint constraintName="crudexample_lost_item_voided_by_fk" baseTableName="crudexample_lost_item" baseColumnNames="voided_by"  referencedTableName="users" referencedColumnNames="user_id" />
 
 	</changeSet>
 

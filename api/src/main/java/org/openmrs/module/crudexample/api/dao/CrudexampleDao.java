@@ -17,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import org.openmrs.api.db.hibernate.DbSession;
 import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.crudexample.Item;
+import org.openmrs.module.crudexample.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -93,4 +94,64 @@ public class CrudexampleDao {
 			return getAllItems();
 		}
 	}
+	
+	/**
+	 * ######################################### store #########################################
+	 **/
+	public Store getStoreByUuid(String uuid) {
+		return (Store) getSession().createCriteria(Store.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
+	}
+	
+	public Store saveStore(Store store) {
+		getSession().saveOrUpdate(store);
+		return store;
+	}
+	
+	public List<Store> getAllStores() {
+		return (List<Store>) getSession().createCriteria(Store.class).list();
+	}
+	
+	public void purgeStore(Store store) {
+		getSession().delete(store);
+	}
+	
+	public Criteria createStoreByQueryCriteria(String query, boolean includeVoided, boolean orderByNames) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Item.class, "i");
+		if (!includeVoided) {
+			criteria.add(Restrictions.eq("i.voided", false));
+		}
+		Disjunction or = Restrictions.disjunction();
+		MatchMode mode = MatchMode.ANYWHERE;
+		or.add(Restrictions.ilike("t.name", query, mode));
+		or.add(Restrictions.ilike("t.location", query, mode));
+		
+		criteria.add(or);
+		return criteria;
+	}
+	
+	public Long getCountOfStores(String query, boolean includeVoided) {
+		Criteria criteria = createItemByQueryCriteria(query, includeVoided, false);
+		
+		criteria.setProjection(Projections.countDistinct("i.crudexample_store_id"));
+		return (Long) criteria.uniqueResult();
+	}
+	
+	public List<Store> getStores(String query, boolean includeVoided) {
+		
+		if (query != null || !query.equals("=") || query.trim().length() != 0) {
+			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Store.class, "i");
+			if (!includeVoided) {
+				criteria.add(Restrictions.eq("i.voided", false));
+			}
+			Disjunction or = Restrictions.disjunction();
+			MatchMode mode = MatchMode.ANYWHERE;
+			or.add(Restrictions.ilike("i.name", query, mode));
+			or.add(Restrictions.ilike("i.location", query, mode));
+			criteria.add(or);
+			return (List<Store>) criteria.list();
+		} else {
+			return getAllStores();
+		}
+	}
+	
 }

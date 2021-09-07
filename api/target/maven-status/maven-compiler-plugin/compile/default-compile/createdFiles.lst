@@ -1,6 +1,10 @@
-org\openmrs\module\crudexample\CrudexampleActivator.class
+org\openmrs\module\crudexample\Waive.class
+org\openmrs\module\crudexample\StoredItem.class
 org\openmrs\module\crudexample\CrudexampleConfig.class
 org\openmrs\module\crudexample\api\CrudexampleService.class
-org\openmrs\module\crudexample\api\dao\CrudexampleDao.class
 org\openmrs\module\crudexample\api\impl\CrudexampleServiceImpl.class
 org\openmrs\module\crudexample\Item.class
+org\openmrs\module\crudexample\IssuedItem.class
+org\openmrs\module\crudexample\Store.class
+org\openmrs\module\crudexample\CrudexampleActivator.class
+org\openmrs\module\crudexample\api\dao\CrudexampleDao.class
